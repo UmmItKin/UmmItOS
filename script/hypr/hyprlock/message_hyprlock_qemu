@@ -1,3 +1,2 @@
 QEMU is Running
-
 So System locking is not performed because QEMU is using system resources.
