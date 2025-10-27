@@ -1,6 +1,7 @@
 extra/nushell
 extra/starship
 extra/kitty
+extra/vim
 extra/neovim
 extra/vim
 extra/cliphist
@@ -34,6 +35,7 @@ extra/mpv
 extra/imagemagick
 extra/grim
 extra/jq
+extra/zoxide
 
 aur/hyprshot
 aur/hyprswitch
