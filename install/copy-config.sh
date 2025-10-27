@@ -86,6 +86,17 @@ copy_all_configs() {
         echo "${COLOR_GREEN}:: All the files copied successfully.${COLOR_RESET}"
         pause_and_continue
         clear
+
+        echo "${COLOR_GREEN}:: zoxide setup ...${COLOR_RESET}"
+        echo "${COLOR_YELLOW}:: zoxide and Nushell have known issues the script cannot handle automatically.${COLOR_RESET}"
+        echo "If you want to enable zoxide in Nushell, follow these steps:"
+        echo "1) In Nushell, get the config path by running: \$nu.config-path"
+        echo "2) And now use your editor add the following line:"
+        echo "    zoxide init nushell | save -f ~/.zoxide.nu"
+        echo "3) Restart Nushell, then adding the following line to your config.nu file:"
+        echo "    source ~/.zoxide.nu"
+        echo "I have no idea why cannot use pipeline directly in config.nu file. You need manually create the ~/.zoxide.nu file and source that."
+        echo "PS: You can open another terminal to do these steps."
     else
         echo "${COLOR_YELLOW}:: Skipping configuration file copying and updates.${COLOR_RESET}"
         echo "${COLOR_GREEN}:: You can copy the configuration files manually later.${COLOR_RESET}"
