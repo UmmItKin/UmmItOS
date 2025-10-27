@@ -25,7 +25,7 @@ safe_copy() {
         echo "${COLOR_YELLOW}:: $name already exists at $dest${COLOR_RESET}"
         if prompt_yna ":: Do you want to overwrite existing $name configuration?"; then
             echo "${COLOR_GREEN}:: [$current/$total] Overwriting $name configuration...${COLOR_RESET}"
-            cp -rv "$src" "$(dirname "$dest")/"
+            cp -rv "$src" "$dest"
             pause_and_continue
             clear
         else
@@ -35,7 +35,7 @@ safe_copy() {
         fi
     else
         echo "${COLOR_GREEN}:: [$current/$total] Copying $name configuration...${COLOR_RESET}"
-        cp -rv "$src" "$(dirname "$dest")/"
+        cp -rv "$src" "$dest"
         clear
     fi
 }
@@ -80,8 +80,8 @@ copy_all_configs() {
 
         set_nushell_default
         
-        safe_copy "./configs/nushell" "$config_dir/nushell" "Nushell" "12" "13"
-        safe_copy "./configs/starship.toml" "$config_dir/" "Starship" "13" "13"
+        safe_copy "./configs/nushell" "$config_dir/" "Nushell" "12" "13"
+        safe_copy "./configs/starship.toml" "$config_dir" "Starship" "13" "13"
 
         echo "${COLOR_GREEN}:: All the files copied successfully.${COLOR_RESET}"
         pause_and_continue
