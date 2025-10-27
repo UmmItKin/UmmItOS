@@ -61,8 +61,8 @@ check_paru() {
 }
 
 # Repository configuration
-repo_url=https://github.com/UmmItKin/Dotfiles.git
-repo=Dotfiles
+repo_url=https://github.com/UmmItOS/UmmItOS.git
+repo=UmmItOS
 
 # Check if user wants to run the script
 if prompt_yna "Do you want to run the script?"; then
