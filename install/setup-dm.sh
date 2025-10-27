@@ -23,11 +23,11 @@ enable_ly_service() {
         echo -e "${COLOR_GREEN}:: ly service is already enabled.${COLOR_RESET}"
         echo -e "${COLOR_YELLOW}:: There's nothing to do here.${COLOR_RESET}"
     else
-        echo -e "${COLOR_RED}:: ly-dm service is not enabled, now will enable it.${COLOR_RESET}"
-        if prompt_yna ":: Enable ly-dm service?"; then
-            sudo systemctl enable ly-dm
+        echo -e "${COLOR_RED}:: ly service is not enabled, now will enable it.${COLOR_RESET}"
+        if prompt_yna ":: Enable ly service?"; then
+            sudo systemctl enable ly
         else
-            echo -e "${COLOR_YELLOW}:: You can enable it later by running 'sudo systemctl enable ly-dm'${COLOR_RESET}"
+            echo -e "${COLOR_YELLOW}:: You can enable it later by running 'sudo systemctl enable ly'${COLOR_RESET}"
         fi
     fi
     
