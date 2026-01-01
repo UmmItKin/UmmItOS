@@ -8,26 +8,26 @@ PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 source "$PARENT_DIR/lib/common.sh"
 source "$PARENT_DIR/lib/display-utils.sh"
 
-enable_ly_service() {
+enable_gdm_service() {
 
     pause_and_continue
 
-    # Check if ly is installed
-    if ! command_exists ly-dm; then
-        echo -e "${COLOR_RED}:: ly is not installed. turn back to main menu and install our main packages first.${COLOR_RESET}"
+    # Check if gdm is installed
+    if ! command_exists gdm; then
+        echo -e "${COLOR_RED}:: gdm is not installed. turn back to main menu and install our main packages first.${COLOR_RESET}"
         read -p "Press Enter to continue..."
         return 1
     fi
     
-    if systemctl is-enabled ly.service &> /dev/null; then
-        echo -e "${COLOR_GREEN}:: ly service is already enabled.${COLOR_RESET}"
+    if systemctl is-enabled gdm.service &> /dev/null; then
+        echo -e "${COLOR_GREEN}:: gdm service is already enabled.${COLOR_RESET}"
         echo -e "${COLOR_YELLOW}:: There's nothing to do here.${COLOR_RESET}"
     else
-        echo -e "${COLOR_RED}:: ly service is not enabled, now will enable it.${COLOR_RESET}"
-        if prompt_yna ":: Enable ly service?"; then
-            sudo systemctl enable ly
+        echo -e "${COLOR_RED}:: gdm service is not enabled, now will enable it.${COLOR_RESET}"
+        if prompt_yna ":: Enable gdm service?"; then
+            sudo systemctl enable gdm
         else
-            echo -e "${COLOR_YELLOW}:: You can enable it later by running 'sudo systemctl enable ly'${COLOR_RESET}"
+            echo -e "${COLOR_YELLOW}:: You can enable it later by running 'sudo systemctl enable gdm'${COLOR_RESET}"
         fi
     fi
     
@@ -43,7 +43,7 @@ enable_ly_service() {
 
 main() {
     display_manager_banner
-    enable_ly_service
+    enable_gdm_service
 }
 
 main
