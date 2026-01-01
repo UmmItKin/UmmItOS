@@ -21,11 +21,19 @@ safe_copy() {
     
     echo "${COLOR_BLUE}[$current/$total] Processing $name configuration...${COLOR_RESET}"
     
+    # Ensure the parent directory exists
+    mkdir -p "$(dirname "$dest")"
+    
     if [ -d "$dest" ] || [ -f "$dest" ]; then
         echo "${COLOR_YELLOW}:: $name already exists at $dest${COLOR_RESET}"
         if prompt_yna ":: Do you want to overwrite existing $name configuration?"; then
             echo "${COLOR_GREEN}:: [$current/$total] Overwriting $name configuration...${COLOR_RESET}"
-            cp -rv "$src" "$dest"
+            if [ -d "$src" ]; then
+                mkdir -p "$dest"
+                cp -rv "$src/." "$dest"
+            else
+                cp -rv "$src" "$dest"
+            fi
             pause_and_continue
         else
             echo "${COLOR_YELLOW}:: [$current/$total] Skipping $name configuration copy.${COLOR_RESET}"
@@ -33,7 +41,12 @@ safe_copy() {
         fi
     else
         echo "${COLOR_GREEN}:: [$current/$total] Copying $name configuration...${COLOR_RESET}"
-        cp -rv "$src" "$dest"
+        if [ -d "$src" ]; then
+            mkdir -p "$dest"
+            cp -rv "$src/." "$dest"
+        else
+            cp -rv "$src" "$dest"
+        fi
     fi
 }
 
