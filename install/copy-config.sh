@@ -27,16 +27,13 @@ safe_copy() {
             echo "${COLOR_GREEN}:: [$current/$total] Overwriting $name configuration...${COLOR_RESET}"
             cp -rv "$src" "$dest"
             pause_and_continue
-            clear
         else
             echo "${COLOR_YELLOW}:: [$current/$total] Skipping $name configuration copy.${COLOR_RESET}"
             pause_and_continue
-            clear
         fi
     else
         echo "${COLOR_GREEN}:: [$current/$total] Copying $name configuration...${COLOR_RESET}"
         cp -rv "$src" "$dest"
-        clear
     fi
 }
 
@@ -85,11 +82,9 @@ copy_all_configs() {
 
         echo "${COLOR_GREEN}:: All the files copied successfully.${COLOR_RESET}"
         pause_and_continue
-        clear
     else
         echo "${COLOR_YELLOW}:: Skipping configuration file copying and updates.${COLOR_RESET}"
         echo "${COLOR_GREEN}:: You can copy the configuration files manually later.${COLOR_RESET}"
-        clear
     fi
 }
 
