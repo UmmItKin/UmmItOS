@@ -76,7 +76,7 @@ ${COLOR_BLUE}Part 3: Setting up Display Manager
 This section will setup the display manager to be used.
 The display manager is used to manage the display of the system.
 
-Our display manager is using Ly.${COLOR_RESET}
+Our display manager is using GDM.${COLOR_RESET}
 
 ${COLOR_GREY}---------------------------------------------------------${COLOR_RESET}
 EOF
