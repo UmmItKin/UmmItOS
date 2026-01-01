@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Main installation script for UmmIt OS
-
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -22,6 +20,9 @@ main() {
     
     # Install packages from install-packages.sh
     source ./install/install-packages.sh
+    
+    # Install oh-my-zsh from oh-my-zsh.sh
+    source ./install/oh-my-zsh.sh
 
     # Copy configuration files
     source ./install/copy-config.sh
@@ -34,8 +35,9 @@ main() {
 }
 
 # Main script execution, only run if the script is executed directly, not sourced
-# Only allow Arch Linux to run the script
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    
+    # Only allow Arch Linux to run the script
     if [ -f /etc/arch-release ]; then
         clear_screen
         draw_header_cli
