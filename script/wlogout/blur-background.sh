@@ -20,7 +20,7 @@ fi
 
 # Wlogout launch
 if wlogout --protocol layer-shell; then
-    ecoh "<NOTICE> $(date +"%Y-%m-%d %H:%M:%S"): Wlogout executed successfully" >> ~/script/wlogout/wlogout.log
+    echo "<NOTICE> $(date +"%Y-%m-%d %H:%M:%S"): Wlogout executed successfully" >> ~/script/wlogout/wlogout.log
 else
     echo "<ERROR> $(date +"%Y-%m-%d %H:%M:%S"): Wlogout failed to lauch" >> ~/script/wlogout/wlogout.log
     hyprctl notify 1 5000 "rgb(FF0000)" "fontsize:35   Wlogout failed to launch"

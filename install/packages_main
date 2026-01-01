@@ -1,4 +1,5 @@
-extra/nushell
+extra/base-devel
+extra/zsh
 extra/starship
 extra/kitty
 extra/vim
@@ -6,7 +7,7 @@ extra/neovim
 extra/vim
 extra/cliphist
 extra/clipmenu
-extra/ly
+extra/gdm
 extra/yazi
 extra/hyprland
 extra/hyprlock
