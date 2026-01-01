@@ -6,20 +6,16 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/lib/common.sh"
 source "$SCRIPT_DIR/lib/display-utils.sh"
 
-
-
-
-
 # Function to show wallpaper directory info
 show_wallpaper_info() {
     local wallpaper_dir="$HOME/.wallpaper"
     echo "${COLOR_BLUE}Wallpaper directory status:${COLOR_RESET}"
     if [ -d "$wallpaper_dir" ]; then
-        echo "${COLOR_GREEN}   ✅ Wallpaper directory exists${COLOR_RESET}"
+        echo "${COLOR_GREEN}✓ Wallpaper directory exists${COLOR_RESET}"
         local count=$(find "$wallpaper_dir" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | wc -l)
-        echo "   📁 Current wallpapers: $count files"
+        echo "Current wallpapers: $count files"
     else
-        echo "${COLOR_YELLOW}   📁 Wallpaper directory will be created: $wallpaper_dir${COLOR_RESET}"
+        echo "${COLOR_YELLOW}Wallpaper directory will be created: $wallpaper_dir${COLOR_RESET}"
     fi
     echo ""
 }
@@ -29,15 +25,12 @@ display_usage() {
     local script_name="$1"
     echo "Usage: $script_name [command]"
     echo ""
-    echo "A script to guide through post-installation configuration for UmmIt OS and Dotfiles,"
-    echo "and to display current setting :)"
+    echo "A script to guide through post-installation configuration for UmmItOS and to display current setting :)"
     echo ""
     echo "Commands:"
     echo "  ${COLOR_GREEN}--start-config${COLOR_RESET}   Run the interactive post-installation configuration setup."
     echo "  ${COLOR_GREEN}--settings${COLOR_RESET}       Show current detected settings without making changes."
     echo "  ${COLOR_GREEN}--help${COLOR_RESET}           Show this help message."
-    echo ""
-    echo "If no command is provided, this help message will be shown."
 }
 
 # Function to read packages from a file into an array
@@ -242,7 +235,7 @@ install_laptop_package() {
     clear_screen
     
     if is_laptop; then
-        :
+        display_laptop_banner
     else
         echo -e "${COLOR_YELLOW}:: Laptop not detected, so the package is no need to install.${COLOR_RESET}"
         read -p "Press Enter to continue..."
@@ -307,36 +300,36 @@ copy_dotfiles() {
     fi
 }
 
-enable_ly_service() {
+enable_gdm_service() {
     clear_screen
     display_manager_banner
 
-    # Check if ly is installed
-    if ! command_exists ly; then
-        echo -e "${COLOR_RED}:: ly is not installed. turn back to main menu and install our main packages first.${COLOR_RESET}"
+    # Check if gdm is installed
+    if ! command_exists gdm; then
+        echo -e "${COLOR_RED}:: gdm is not installed. turn back to main menu and install our main packages first.${COLOR_RESET}"
         read -p "Press Enter to continue..."
         return 1
     fi
     
-    if systemctl is-enabled ly.service &> /dev/null; then
-        echo -e "${COLOR_GREEN}:: ly service is already enabled.${COLOR_RESET}"
+    if systemctl is-enabled gdm.service &> /dev/null; then
+        echo -e "${COLOR_GREEN}:: gdm service is already enabled.${COLOR_RESET}"
         echo -e "${COLOR_YELLOW}:: There's nothing to do here.${COLOR_RESET}"
-        read -p "Press Enter to continue..."
+        read -p ":: Press Enter to continue..."
         return 0
     else
-        echo -e "${COLOR_RED}:: ly service is not enabled, now will enable it.${COLOR_RESET}"
-        if prompt_yna ":: Enable ly service?"; then
-            if sudo systemctl enable ly.service; then
-                echo -e "${COLOR_GREEN}:: ly service enabled successfully.${COLOR_RESET}"
+        echo -e "${COLOR_RED}:: gdm service is not enabled, now will enable it.${COLOR_RESET}"
+        if prompt_yna ":: Enable gdm service?"; then
+            if sudo systemctl enable gdm.service; then
+                echo -e "${COLOR_GREEN}:: gdm service enabled successfully.${COLOR_RESET}"
                 read -p "Press Enter to continue..."
                 return 0
             else
-                echo -e "${COLOR_RED}:: Failed to enable ly service.${COLOR_RESET}"
+                echo -e "${COLOR_RED}:: Failed to enable gdm service.${COLOR_RESET}"
                 read -p "Press Enter to continue..."
                 return 1
             fi
         else
-            echo -e "${COLOR_YELLOW}:: You can enable it later by running 'sudo systemctl enable ly.service'${COLOR_RESET}"
+            echo -e "${COLOR_YELLOW}:: You can enable it later by running 'sudo systemctl enable gdm.service'${COLOR_RESET}"
             read -p "Press Enter to continue..."
             return 1
         fi
@@ -344,7 +337,7 @@ enable_ly_service() {
 }
 
 enable_service() {
-    enable_ly_service
+    enable_gdm_service
 
     if [[ $? -eq 0 ]]; then
         echo -e "${COLOR_GREEN}:: [5/5] Service enabled successfully!${COLOR_RESET}"
@@ -359,7 +352,7 @@ show_post_install_info() {
     clear_screen
     draw_header
 
-    echo -e "${COLOR_GREEN}🎉 Installation Complete! 🎉${COLOR_RESET}\n"
+    echo -e "${COLOR_GREEN}Installation Complete!${COLOR_RESET}\n"
     echo -e "${COLOR_YELLOW}Post-installation notes:${COLOR_RESET}"
     echo -e "• Reboot your system to ensure all changes take effect"
     echo -e "After reboot, run our settings script to finalize the setup of your system by executing: ${COLOR_GREEN}./post-install.sh --start-config${COLOR_RESET}"
@@ -367,13 +360,13 @@ show_post_install_info() {
         echo -e "• Verify AMD GPU drivers are working properly"
     fi
     echo ""
-    echo -e "${COLOR_BLUE}Enjoy your new system! 🚀${COLOR_RESET}\n"
+    echo -e "${COLOR_BLUE}Enjoy your new system!${COLOR_RESET}\n"
     read -p "Press Enter to exit..."
 }
 
 auto_install_all() {
     clear_screen
-    echo -e "\n${COLOR_RED}🚀 AUTOMATIC INSTALLATION MODE${COLOR_RESET}"
+    echo -e "\n${COLOR_RED}AUTOMATIC INSTALLATION MODE${COLOR_RESET}"
     echo -e "${COLOR_YELLOW}This will install everything automatically...${COLOR_RESET}\n"
     
     local confirm_options=("Yes, proceed" "No, go back")
@@ -403,7 +396,7 @@ auto_install_all() {
         pause
         enable_service
         
-        echo -e "\n${COLOR_GREEN}🎉 Automatic installation completed!${COLOR_RESET}"
+        echo -e "\n${COLOR_GREEN}Automatic installation completed!${COLOR_RESET}"
         pause
         show_post_install_info
         return 0
@@ -417,7 +410,7 @@ package_menu() {
     local package_options=("Main packages" "GPU packages" "Laptop packages" "Back to main menu")
     
     while true; do
-        simple_menu "📦 Package Installation:" "${package_options[@]}"
+        simple_menu "Package Installation:" "${package_options[@]}"
         local choice=$?
         
         case $choice in
@@ -433,16 +426,16 @@ package_menu() {
 # Main menu
 main_menu() {
     local main_options=(
-        "📦 Install packages"
-        "📁 Copy dotfiles" 
-        "🚀 Enable service"
-        "📋 Show post-install info"
-        "⚡ Auto-install Process [1-5]"
-        "❌ Exit the installer"
+        "Install packages"
+        "Copy dotfiles" 
+        "Enable service"
+        "Show post-install info"
+        "Auto-install Process [1-5]"
+        "Exit the installer"
     )
     
     while true; do
-        simple_menu "🔧 If you are a new user, please select auto-install everything. \nOnly you know what you are doing if you choose to manually install process.)" "${main_options[@]}"
+        simple_menu "If you are a new user, please select auto-install everything. \nOnly you know what you are doing if you choose to manually install process.)" "${main_options[@]}"
         local choice=$?
         
         case $choice in
@@ -482,9 +475,10 @@ welcome() {
 # Main execution
 main() {
 
-    # Check if running as root (optional)
+    # Check if running as root
     if [[ $EUID -eq 0 ]]; then
-        echo -e "${COLOR_RED}:: Run this script is not good idea, as like you run Hyprland as root. Are you stupid?\nSwitch to normal user :)${COLOR_RESET}"
+        echo -e "${COLOR_RED}:: Running this script as root is not a good idea, just like running Hyprland as root. Are you unaware of this?${COLOR_RESET}"
+        echo -e "${COLOR_RED}:: Please switch to normal user.${COLOR_RESET}"
         exit 1
     fi
     
@@ -493,7 +487,6 @@ main() {
         welcome
         main_menu
     else
-        echo ""
         echo -e "${COLOR_YELLOW}:: Hey, you need to become arch linux user to run this script xd${COLOR_RESET}"
         echo -e "${COLOR_YELLOW}:: The script is only tested on arch linux environment.${COLOR_RESET}"
         echo -e "${COLOR_YELLOW}:: Any arch based distribution is also supported. like EndeavourOS :D${COLOR_RESET}"
